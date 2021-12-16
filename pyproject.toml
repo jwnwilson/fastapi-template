@@ -8,6 +8,7 @@ authors = ["Noel Wilson <jwnwilson@hotmail.co.uk>"]
 python = "^3.8"
 fastapi = "^0.70.1"
 pdfkit = "^1.0.0"
+uvicorn = "^0.16.0"
 
 [tool.poetry.dev-dependencies]
 
