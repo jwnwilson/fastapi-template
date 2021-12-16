@@ -1,0 +1,11 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./api.dockerfile
+    tty: true
+    expose:
+      - "8888"
+    ports:
+      - 0.0.0.0:80:8888

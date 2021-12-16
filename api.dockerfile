@@ -1,9 +1,6 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
+FROM python:3.8
 
 WORKDIR /app/
-
-# Install libraries
-RUN apt-get install wkhtmltopdf
 
 # Install Poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python && \
@@ -12,7 +9,7 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-
     poetry config virtualenvs.create false
 
 # Copy poetry.lock* in case it doesn't exist in the repo
-COPY ./app/pyproject.toml ./app/poetry.lock* /app/
+COPY ./pyproject.toml ./poetry.lock* /app/
 
 # Allow installing dev dependencies to run tests
 ARG INSTALL_DEV=false
@@ -20,3 +17,4 @@ RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; els
 
 COPY ./app /app
 ENV PYTHONPATH=/app
+CMD ["uvicorn", "app.adapter.into.fastapi.main:app", "--host", "0.0.0.0", "--port", "80"]
