@@ -1,0 +1,4 @@
+# infra
+infra/tf/.terraform
+infra/tf/infra.tfplan
+infra/tf/.terraform.lock.hcl

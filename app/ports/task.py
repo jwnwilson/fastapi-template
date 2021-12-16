@@ -13,8 +13,8 @@ class TaskOutData(BaseModel):
 
 
 class TaskAdapter:
-    def create_task(task_name: str, task_args: TaskArgs) -> TaskOutData:
+    def create_task(self, task_name: str, task_args: TaskArgs) -> TaskOutData:
         raise NotImplementedError
 
-    def get_task(task_id: int) -> TaskOutData:
+    def get_task(self, task_id: int) -> TaskOutData:
         raise NotImplementedError
