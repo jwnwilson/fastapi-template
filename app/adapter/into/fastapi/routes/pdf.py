@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.post("/")
-async def create_pdf_route(task_adapter = Depends(get_sqs_adapater), pdf_data: PdfInData):
+async def create_pdf_route(pdf_data: PdfInData, task_adapter = Depends(get_sqs_adapater)):
     # call create use case
     pdf_task_data: PdfOutData = create_pdf(task_adapter, pdf_data)
     # return pdf id with pdf job data
@@ -21,6 +21,6 @@ async def create_pdf_route(task_adapter = Depends(get_sqs_adapater), pdf_data: P
 
 
 @router.get("/{pdf_id}")
-async def get_pdf_route(task_adapter = Depends(get_sqs_adapater), pdf_id: str):
+async def get_pdf_route(pdf_id: str, task_adapter = Depends(get_sqs_adapater)):
     # Attempt to get pdf data by id
     return get_pdf(task_adapter, pdf_id)
