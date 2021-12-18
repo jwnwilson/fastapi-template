@@ -6,15 +6,17 @@ class TaskArgs(BaseModel):
     kwargs: dict
 
 
-class TaskOutData(BaseModel):
+class TaskData(BaseModel):
     task_id: int
+    task_name: str
     status: str
     data: dict
+    result: dict
 
 
 class TaskAdapter:
-    def create_task(self, task_name: str, task_args: TaskArgs) -> TaskOutData:
+    def create_task(self, task_name: str, task_args: TaskArgs) -> TaskData:
         raise NotImplementedError
 
-    def get_task(self, task_id: int) -> TaskOutData:
+    def get_task(self) -> TaskData:
         raise NotImplementedError

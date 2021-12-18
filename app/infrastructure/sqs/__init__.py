@@ -1,7 +1,7 @@
 import boto3
 import json
 
-from ...ports.task import TaskAdapter, TaskArgs, TaskOutData
+from ports.task import TaskAdapter, TaskArgs, TaskData
 
 
 class SqsTaskAdapter(TaskAdapter):
@@ -10,7 +10,7 @@ class SqsTaskAdapter(TaskAdapter):
         self.sqs = boto3.client('sqs')
         self.queue_url = config["queue"]
 
-    def create_task(self, task_name: str, task_args: TaskArgs) -> TaskOutData:
+    def create_task(self, task_name: str, task_args: TaskArgs) -> TaskData:
         # Send message to SQS queue
         task_data = {
             "task_name": task_name,
@@ -23,7 +23,7 @@ class SqsTaskAdapter(TaskAdapter):
             )
         )
         
-        resp = TaskOutData(
+        resp = TaskData(
             task_id = sqs_resp['MessageId'],
             status = "pending",
             data = sqs_resp
@@ -31,7 +31,8 @@ class SqsTaskAdapter(TaskAdapter):
 
         return resp
 
-    def get_task(self, task_id: int) -> TaskOutData:
+    def get_task(self) -> TaskData:
+        # Get a message from sqs queue
         sqs_resp = self.sqs.receive_message(
             QueueUrl=self.queue_url,
             MaxNumberOfMessages=1,
@@ -42,7 +43,7 @@ class SqsTaskAdapter(TaskAdapter):
             WaitTimeSeconds=0
         )
 
-        return TaskOutData(
+        return TaskData(
             task_id = sqs_resp['MessageId'],
             status = "processing",
             data = sqs_resp

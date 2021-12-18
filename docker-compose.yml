@@ -5,7 +5,9 @@ services:
       context: .
       dockerfile: ./api.dockerfile
     tty: true
+    volumes:
+      - ./app:/app
     expose:
-      - "8888"
+      - "80"
     ports:
-      - 0.0.0.0:80:8888
+      - 0.0.0.0:8888:80

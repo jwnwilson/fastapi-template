@@ -1,9 +1,12 @@
-from ..domain.pdf import create_pdf
-from ..ports.pdf import PdfInData, PdfOutData
-from ..ports.task import TaskAdapter
+from domain.pdf import PdfEntity 
+from ports.task import TaskData
+from ports.db import DbAdapter
+from ports.storage import StorageAdapter
 
 
-def create_pdf(task_adapter: TaskAdapter, pdf_data: PdfInData) -> PdfOutData:
+def create_pdf(
+    db_adapter: DbAdapter, storage_adapter: StorageAdapter, task_data: TaskData
+) -> TaskData:
     """[summary]
 
     Args:
@@ -13,8 +16,11 @@ def create_pdf(task_adapter: TaskAdapter, pdf_data: PdfInData) -> PdfOutData:
     Returns:
         [type]: [description]
     """
-    # create pdf task
-    pdf_out_data: PdfOutData = task_adapter.create_task(pdf_data)
-
-    # return pdf task data
-    return pdf_out_data
+    # create pdf
+    pdf_entity = PdfEntity(
+        db_adapter=db_adapter,
+        storage_adapter=storage_adapter
+    )
+    task_data = pdf_entity.create_pdf(task_data)
+    return TaskData
+    
