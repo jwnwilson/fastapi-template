@@ -1,7 +1,5 @@
 variable "api_repo" {}
 
-variable "db_repo" {}
-
 variable "access_key" {}
 
 variable "secret_key" {}
@@ -22,14 +20,3 @@ resource "aws_ecr_repository" "api_repo" {
     scan_on_push = true
   }
 }
-
-
-resource "aws_ecr_repository" "db_repo" {
-  name                 = var.db_repo
-  image_tag_mutability = "MUTABLE"
-
-  image_scanning_configuration {
-    scan_on_push = true
-  }
-}
-

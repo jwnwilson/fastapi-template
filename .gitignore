@@ -31,3 +31,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# Terraform
+
+infra/tf/.terraform
+infra/tf/*.tfvars

@@ -1,3 +1,4 @@
+from abc import ABC
 from pydantic import BaseModel
 
 
@@ -14,7 +15,7 @@ class TaskData(BaseModel):
     result: dict
 
 
-class TaskAdapter:
+class TaskAdapter(ABC):
     def create_task(self, task_name: str, task_args: TaskArgs) -> TaskData:
         raise NotImplementedError
 

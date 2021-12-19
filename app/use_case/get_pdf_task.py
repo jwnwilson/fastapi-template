@@ -16,4 +16,4 @@ def get_pdf(event_adapter: TaskAdapter, db_adapter: DbAdapter, pdf_id: str) -> P
     """
     task_service = TaskEntity(event_adapter=event_adapter, db_adapter=db_adapter)
     # return pdf task data
-    return task_service.get_task(pdf_id)
+    return task_service.get_task_by_id(pdf_id)

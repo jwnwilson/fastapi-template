@@ -4,58 +4,42 @@ terraform {
   }
 }
 
+provider "aws" {
+  region  = "eu-west-1"
+}
+
 module "vpc" {
-  source          = "./modules/vpc"
-  access_key      = var.aws_access_key
-  secret_key      = var.aws_secret_key
-  region          = var.aws_region
-  project         = var.project
-  environment     = var.environment
+  source = "terraform-aws-modules/vpc/aws"
+
+  name = "${var.project}-vpc"
+  cidr = "10.10.0.0/16"
+
+  azs           = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  intra_subnets = ["10.10.101.0/24", "10.10.102.0/24", "10.10.103.0/24"]
+
+  # Add public_subnets and NAT Gateway to allow access to internet from Lambda
+  # public_subnets  = ["10.10.1.0/24", "10.10.2.0/24", "10.10.3.0/24"]
+  # enable_nat_gateway = true
 }
 
-module "api" {
-  source          = "./modules/api/aws"
-  access_key      = var.aws_access_key
-  secret_key      = var.aws_secret_key
-  region          = var.aws_region
-  project         = var.project
-  environment     = var.environment
-  image_ecr_repo  = module.docker_images.ecr_api_url
-  api_cert_arn    = module.dns.api_cert_arn
-  vpc_id          = module.vpc.vpc_id
-  vpc_sg_id       = module.vpc.vpc_sg_id
-  db_host         = module.db.db_host
-}
+module "pdf_api" {
+  source                  = "terraform-aws-modules/lambda/aws"
 
-module "task" {
-  source          = "./modules/api/aws"
-  access_key      = var.aws_access_key
-  secret_key      = var.aws_secret_key
-  region          = var.aws_region
-  project         = var.project
-  environment     = var.environment
-  image_ecr_repo  = module.docker_images.ecr_api_url
-  api_cert_arn    = module.dns.api_cert_arn
-  vpc_id          = module.vpc.vpc_id
-  vpc_sg_id       = module.vpc.vpc_sg_id
-  db_host         = module.db.db_host
-}
+  function_name           = "pdf_api"
+  description             = "PDF creator API"
 
-module "dns" {
-  source              = "./modules/dns/aws"
-  access_key          = var.aws_access_key
-  secret_key          = var.aws_secret_key
-  region              = var.aws_region
-  domain              = var.domain
-  api_subdomain       = var.api_subdomain
-  target_alb_arn      = module.api.target_alb_arn
-  target_listener_arn = module.api.target_listener_arn
+  create_package          = false
+
+  image_uri               = "${module.docker_images.ecr_api_url}:latest"
+  package_type            = "Image"
+  vpc_subnet_ids          = module.vpc.intra_subnets
+  vpc_security_group_ids  = [module.vpc.default_security_group_id]
+  attach_network_policy   = true
 }
 
 module "docker_images" {
   source = "./modules/images/aws"
 
-  db_repo         = var.db_repo
   api_repo        = var.api_repo
   access_key      = var.aws_access_key
   secret_key      = var.aws_secret_key

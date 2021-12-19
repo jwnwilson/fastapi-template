@@ -1,13 +1,13 @@
 from domain.task import TaskEntity
-from ports.pdf import PdfInData, PdfOutData
-from ports.task import TaskAdapter
+from ports.pdf import PdfInData
+from ports.task import TaskAdapter, TaskData
 from ports.db import DbAdapter
 from ports.storage import StorageAdapter
 
 
 def create_pdf(
     event_adapter: TaskAdapter, db_adapter: DbAdapter, storage_adapter: StorageAdapter, pdf_data: PdfInData
-) -> PdfOutData:
+) -> TaskData:
     """[summary]
 
     Args:
@@ -18,13 +18,12 @@ def create_pdf(
         [type]: [description]
     """
     # store html data to create pdf later
-
-    pdf_data: PdfInData = PdfInData(html_url=)
-
+    html_url = storage_adapter.save(pdf_data)
+    pdf_task_data: TaskData = TaskData(result=html_url)
 
     # create pdf task
     task_service = TaskEntity(event_adapter=event_adapter, db_adapter=db_adapter)
-    pdf_out_data: PdfOutData = task_service.create_task(pdf_data)
+    pdf_task_data: TaskData = task_service.create_task(pdf_task_data)
 
     # return pdf task data
-    return pdf_out_data
+    return pdf_task_data

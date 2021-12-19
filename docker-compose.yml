@@ -3,7 +3,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: ./api.dockerfile
+      dockerfile: ./infra/docker/api.dockerfile
     tty: true
     volumes:
       - ./app:/app

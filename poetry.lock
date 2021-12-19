@@ -120,6 +120,17 @@ optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "mangum"
+version = "0.12.3"
+description = "AWS Lambda & API Gateway support for ASGI"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+typing-extensions = "*"
+
+[[package]]
 name = "pdfkit"
 version = "1.0.0"
 description = "Wkhtmltopdf python wrapper to convert html to pdf using the webkit rendering engine and qt"
@@ -237,7 +248,7 @@ standard = ["httptools (>=0.2.0,<0.4.0)", "watchgod (>=0.6)", "python-dotenv (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "8a4c2c26c5f736b6bc0552fe5f61a802270839ee2edcb9982a982a31a9f176cf"
+content-hash = "33f12804572d080a86659592c97781fe4c7d6d0dd3f24185e6e2e672d92518a2"
 
 [metadata.files]
 anyio = [
@@ -279,6 +290,10 @@ idna = [
 jmespath = [
     {file = "jmespath-0.10.0-py2.py3-none-any.whl", hash = "sha256:cdf6525904cc597730141d61b36f2e4b8ecc257c420fa2f4549bac2c2d0cb72f"},
     {file = "jmespath-0.10.0.tar.gz", hash = "sha256:b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9"},
+]
+mangum = [
+    {file = "mangum-0.12.3-py3-none-any.whl", hash = "sha256:128a8c1aa2eef13fc94ac5344210df8bd71dfba584b658bec9473e784bd86301"},
+    {file = "mangum-0.12.3.tar.gz", hash = "sha256:a45cc1c57736e7044318e65216eea83a397cb709e39fe6810a46faf0e15d2664"},
 ]
 pdfkit = [
     {file = "pdfkit-1.0.0-py2-none-any.whl", hash = "sha256:cc122e5aed594198ff7aaa566f2950d2163763576ab891c161bb1f6c630f5a8e"},
