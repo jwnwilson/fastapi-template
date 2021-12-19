@@ -5,7 +5,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = "eu-west-1"
+  region  = var.aws_region
 }
 
 module "vpc" {
@@ -30,7 +30,7 @@ module "pdf_api" {
 
   create_package          = false
 
-  image_uri               = "${module.docker_images.ecr_api_url}:latest"
+  image_uri               = "${module.docker_images.ecr_api_url}:19122021-13"
   package_type            = "Image"
   vpc_subnet_ids          = module.vpc.intra_subnets
   vpc_security_group_ids  = [module.vpc.default_security_group_id]

@@ -13,6 +13,11 @@ boto3 = "^1.20.24"
 mangum = "^0.12.3"
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+mypy = "^0.920"
+black = "^21.12b0"
+isort = "^5.10.1"
+boto3-stubs = "^1.20.24"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

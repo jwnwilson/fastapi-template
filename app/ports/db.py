@@ -8,7 +8,7 @@ class DbAdapter:
     def read(self, record_id):
         raise NotImplementedError
 
-    def update(self, record_id):
+    def update(self, record_id, record_data):
         raise NotImplementedError
 
     def delete(self, record_id):

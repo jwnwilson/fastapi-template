@@ -1,5 +1,5 @@
 build:
-	docker-compose build
+	docker-compose build --build-arg INSTALL_DEV=true
 
 run:
 	docker-compose up
@@ -8,7 +8,7 @@ stop:
 	docker-compose down
 
 test:
-	docker-compose run api mvn test
+	docker-compose run api pytest
 
-reset-db: stop
-	docker volume rm aktion_api_data
+lint:
+	docker-compose run api bash -c "../scripts/lint.sh"

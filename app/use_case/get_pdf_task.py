@@ -1,10 +1,10 @@
+from app.ports.task import TaskData
 from domain.task import TaskEntity
-from ports.pdf import PdfOutData
-from ports.task import TaskAdapter
 from ports.db import DbAdapter
+from ports.task import TaskAdapter
 
 
-def get_pdf(event_adapter: TaskAdapter, db_adapter: DbAdapter, pdf_id: str) -> PdfOutData:
+def get_pdf(event_adapter: TaskAdapter, db_adapter: DbAdapter, pdf_id: str) -> TaskData:
     """[summary]
 
     Args:

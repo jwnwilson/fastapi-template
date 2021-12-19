@@ -1,7 +1,7 @@
-from ports.task import TaskAdapter
-from ports.db import DbAdapter
+from infrastructure.db import DynamodbAdapter
 from infrastructure.sqs import SqsTaskAdapter
-from infrastructure.db import DynamoDbAdapter
+from ports.db import DbAdapter
+from ports.task import TaskAdapter
 
 
 def get_task_adapater() -> TaskAdapter:
@@ -9,4 +9,4 @@ def get_task_adapater() -> TaskAdapter:
 
 
 def get_db_adapater() -> DbAdapter:
-    return DynamoDbAdapter()
+    return DynamodbAdapter()

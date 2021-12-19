@@ -1,8 +1,10 @@
 from abc import ABC
+
 from pydantic import BaseModel
 
 
 class TaskArgs(BaseModel):
+    task_name: str
     args: list
     kwargs: dict
 
@@ -10,8 +12,9 @@ class TaskArgs(BaseModel):
 class TaskData(BaseModel):
     task_id: int
     task_name: str
+    args: list
+    kwargs: dict
     status: str
-    data: dict
     result: dict
 
 

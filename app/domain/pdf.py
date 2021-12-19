@@ -1,10 +1,9 @@
 import pdfkit
 
-from ports.pdf import PdfInData
 from ports.db import DbAdapter
-from ports.task import TaskAdapter, TaskData
+from ports.pdf import PdfInData
 from ports.storage import StorageAdapter
-
+from ports.task import TaskAdapter, TaskData
 
 
 class PdfEntity:
@@ -22,15 +21,15 @@ class PdfEntity:
         Returns:
             [type]: [description]
         """
-        pdf_file_path = "/tmp/"
+        pdf_file_path = "/tmp/pdf_file.pdf"
         # render pdf file
-        pdfkit.from_url(pdf_data.html_url, pdf_file_path)
+        pdfkit.from_url(pdf_data.kwargs["html_url"], pdf_file_path)
 
         # save pdf file
-        pdf_url = self.storage_adapter.save(pdf_file_path)
+        pdf_url = self.storage_adapter.save(pdf_file_path, pdf_file_path)
         pdf_data.result = pdf_url
 
         # update db record
         self.db_adapter.update(pdf_data.task_id, pdf_data)
 
-        return pdf_data 
+        return pdf_data

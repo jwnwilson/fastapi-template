@@ -21,5 +21,6 @@ ARG INSTALL_DEV=false
 RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; else poetry install --no-root --no-dev ; fi"
 
 COPY ./app /app
+COPY ./scripts /scripts
 ENV PYTHONPATH=/app
 CMD ["uvicorn", "adapter.into.fastapi.main:app", "--host", "0.0.0.0", "--port", "80"]
