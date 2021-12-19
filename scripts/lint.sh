@@ -5,6 +5,6 @@ set -x
 
 cd ../app
 
-# mypy .
+mypy .
 black .
 isort .
