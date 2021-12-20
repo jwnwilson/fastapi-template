@@ -1,9 +1,8 @@
 from typing import Any, List
 
-from pydantic import BaseModel
-
 from ports.db import DbAdapter
 from ports.task import TaskAdapter, TaskArgs, TaskData
+from pydantic import BaseModel
 
 
 class RegisteredTask(BaseModel):

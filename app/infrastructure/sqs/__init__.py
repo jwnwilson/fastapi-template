@@ -1,7 +1,6 @@
 import json
 
 import boto3
-
 from ports.task import TaskAdapter, TaskArgs, TaskData
 
 

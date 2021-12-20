@@ -13,8 +13,8 @@ test:
 lint:
 	docker-compose run api bash -c "../scripts/lint.sh"
 
-static-check:
-	docker-compose run api bash -c "../scripts/lint.sh -check"
+static:
+	docker-compose run api bash -c "../scripts/lint.sh --check"
 
 clean:
 	rm **/**/*.pyc

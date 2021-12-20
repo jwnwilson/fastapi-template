@@ -1,5 +1,4 @@
 import pdfkit
-
 from ports.db import DbAdapter
 from ports.pdf import PdfInData
 from ports.storage import StorageAdapter
