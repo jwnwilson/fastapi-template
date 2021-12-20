@@ -1,9 +1,8 @@
-from app.ports.task import TaskArgs
 from domain.task import TaskEntity
 from ports.db import DbAdapter
 from ports.pdf import PdfInData
 from ports.storage import StorageAdapter
-from ports.task import TaskAdapter, TaskData
+from ports.task import TaskAdapter, TaskData, TaskArgs
 
 
 def create_pdf(
