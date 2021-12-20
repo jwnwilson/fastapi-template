@@ -3,8 +3,11 @@
 set -e
 set -x
 
-cd ../app
+# assumed docker image folder
+APP_FOLDER=task
 
-mypy .
-black .
-isort .
+cd ..
+
+mypy ${APP_FOLDER}
+black ${APP_FOLDER}
+isort ${APP_FOLDER}

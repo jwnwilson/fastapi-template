@@ -6,22 +6,12 @@ services:
       dockerfile: ./infra/docker/api.dockerfile
     tty: true
     volumes:
-      - ./app:/app
-      - ./scripts:/scripts
+      - ./app:/var/task
+      - ./scripts:/var/scripts
     expose:
       - "80"
     ports:
       - 0.0.0.0:8888:80
-  
-  lambda:
-    build:
-      context: .
-      dockerfile: ./infra/docker/lambda-api.dockerfile
-    tty: true
-    volumes:
-      - ./app:/app
-      - ./scripts:/scripts
-    expose:
-      - "8080"
-    ports:
-      - 0.0.0.0:9000:8080
+    # Override lambda entry point to revert to default docker behaviour
+    entrypoint: ""
+    command: "uvicorn adapter.into.fastapi.main:app --host 0.0.0.0 --port 80"

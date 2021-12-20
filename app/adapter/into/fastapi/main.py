@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from .routes import pdf
 
-app = FastAPI()
+app = FastAPI(root_path="/staging")
 app.include_router(pdf.router)
 
 
