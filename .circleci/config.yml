@@ -7,7 +7,7 @@ orbs:
 jobs:
   build-and-test:
     machine:
-      - image: cimg/python:3.8
+      image: cimg/python:3.8
     steps:
       - checkout
       - setup_remote_docker:
