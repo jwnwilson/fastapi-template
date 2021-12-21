@@ -21,7 +21,7 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-
     poetry config virtualenvs.create false
 
 # Copy poetry.lock* in case it doesn't exist in the repo
-COPY ./pyproject.toml ./poetry.lock* ${LAMBDA_TASK_ROOT}
+COPY ./pyproject.toml ./poetry.lock* ${LAMBDA_TASK_ROOT}/
 
 # Allow installing dev dependencies to run tests
 ARG INSTALL_DEV=false
