@@ -12,7 +12,8 @@ RUN yum install -y libpng \
     xorg-x11-fonts-75dpi \
     wget && \
     wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox-0.12.6-1.amazonlinux2.x86_64.rpm && \
-    rpm -Uvh wkhtmltox-0.12.6-1.amazonlinux2.x86_64.rpm
+    rpm -Uvh wkhtmltox-0.12.6-1.amazonlinux2.x86_64.rpm && \
+    rm wkhtmltox-0.12.6-1.amazonlinux2.x86_64.rpm
 
 # Install Poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python && \
