@@ -1,5 +1,4 @@
-from adapter.into.fastapi.dependencies import (get_db_adapater,
-                                               get_task_adapater)
+from adapter.into.fastapi.dependencies import get_db_adapater, get_task_adapater
 from fastapi import APIRouter, Depends, HTTPException
 from ports.pdf import PdfInData
 from ports.task import TaskData

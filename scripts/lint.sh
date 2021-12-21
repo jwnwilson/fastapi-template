@@ -12,16 +12,13 @@ while [[ "$#" -gt 0 ]]; do
     esac
 done
 
-# assumed docker image folder
-APP_FOLDER=task
-
-cd ..
+APP_FOLDER=app
 
 if [[ -z "${check}" ]]; then
-    black ${APP_FOLDER}
-    isort ${APP_FOLDER}
+    black ${APP_FOLDER} 
+    isort ${APP_FOLDER} --profile black
 else
-    MYPYPATH=/var/task mypy ${APP_FOLDER}
+    mypy ${APP_FOLDER}
     black --check ${APP_FOLDER}
-    isort --check-only ${APP_FOLDER}
+    isort --check-only ${APP_FOLDER} --profile black
 fi

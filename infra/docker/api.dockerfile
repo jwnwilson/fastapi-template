@@ -27,7 +27,7 @@ COPY ./pyproject.toml ./poetry.lock* ${LAMBDA_TASK_ROOT}
 ARG INSTALL_DEV=false
 RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; else poetry install --no-root --no-dev ; fi"
 
-ADD ./app ${LAMBDA_TASK_ROOT}
+ADD ./app ${LAMBDA_TASK_ROOT}/app
 
-ENV PYTHONPATH ${LAMBDA_TASK_ROOT}
-CMD ["adapter.into.fastapi.lambda.handler"]
+ENV PYTHONPATH ${LAMBDA_TASK_ROOT}/app
+CMD ["app.adapter.into.fastapi.lambda.handler"]
