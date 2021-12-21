@@ -23,18 +23,6 @@ variable "project" {
 
 variable "ecr_api_url" {}
 
-variable "docker_tag" {
-  default = "latest"
-}
-
-variable "domain" {
-  default = "pdf-service.link"
-}
-
-variable "api_subdomain" {
-  default = "api"
-}
-
 variable "api_repo" {
   description = "Name of container image repository"
   default     = "pdf_service_api"

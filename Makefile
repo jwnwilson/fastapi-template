@@ -16,6 +16,10 @@ lint:
 static:
 	docker-compose run api bash -c "scripts/lint.sh --check"
 
+# Requires "make init" && "make apply_pipeline" to be run in infra/ first
+deploy: build
+	bash ./scripts/deploy.sh
+
 clean:
 	rm **/**/*.pyc
 	rm **/**/__pycache__

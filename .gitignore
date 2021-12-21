@@ -37,5 +37,6 @@ MANIFEST
 # Terraform
 
 infra/tf/.terraform/*
-infra/tf/staging.tfvars
-infra/tf/production.tfvars
+infra/tf_pipeline/.terraform/*
+infra/staging.tfvars
+infra/production.tfvars

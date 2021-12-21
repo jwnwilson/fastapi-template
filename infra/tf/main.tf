@@ -30,7 +30,7 @@ module "pdf_api" {
 
   create_package          = false
 
-  image_uri               = "${module.docker_images.ecr_api_url}:20122021-18"
+  image_uri               = "${var.ecr_api_url}:${var.docker_tag}"
   package_type            = "Image"
   vpc_subnet_ids          = module.vpc.intra_subnets
   vpc_security_group_ids  = [module.vpc.default_security_group_id]
@@ -49,13 +49,4 @@ module "api_gateway" {
   lambda_invoke_arn = module.pdf_api.lambda_function_invoke_arn
   lambda_name       = module.pdf_api.lambda_function_name
 
-}
-
-module "docker_images" {
-  source = "./modules/images/aws"
-
-  api_repo        = var.api_repo
-  access_key      = var.aws_access_key
-  secret_key      = var.aws_secret_key
-  region          = var.aws_region
 }
