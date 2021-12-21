@@ -6,6 +6,8 @@ orbs:
 
 jobs:
   build-and-test:
+    environment:
+      LAMBDA_TASK_ROOT: /var/task
     docker:
       - image: cimg/python:3.8
     steps:
