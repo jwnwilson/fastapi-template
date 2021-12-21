@@ -10,7 +10,7 @@ latest_image=`docker images -q fastapi-template_api`
 docker_tag=$(date '+%d%m%Y%H%M%S')
 
 # Docker login
-aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${aws_ecr}
+source ./scripts/docker.sh
 
 # tag and push docker image
 docker tag "${latest_image}" "${aws_ecr}/${ecr_repo_name}:latest"
