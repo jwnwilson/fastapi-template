@@ -1,8 +1,13 @@
+variable "lambda_invoke_arn" {}
+
+variable "lambda_name" {}
+
+variable "environment" {}
+
 resource "aws_api_gateway_rest_api" "apiLambda" {
-  name        = "myAPI"
+  name        = "pdf_api_${var.environment}"
+  description = "PDF creator API"
 }
-
-
 
 resource "aws_api_gateway_resource" "proxy" {
    rest_api_id = aws_api_gateway_rest_api.apiLambda.id
@@ -24,11 +29,8 @@ resource "aws_api_gateway_integration" "lambda" {
 
    integration_http_method = "POST"
    type                    = "AWS_PROXY"
-   uri                     = aws_lambda_function.myLambda.invoke_arn
+   uri                     = var.lambda_invoke_arn
 }
-
-
-
 
 resource "aws_api_gateway_method" "proxy_root" {
    rest_api_id   = aws_api_gateway_rest_api.apiLambda.id
@@ -44,7 +46,7 @@ resource "aws_api_gateway_integration" "lambda_root" {
 
    integration_http_method = "POST"
    type                    = "AWS_PROXY"
-   uri                     = aws_lambda_function.myLambda.invoke_arn
+   uri                     = var.lambda_invoke_arn
 }
 
 
@@ -55,14 +57,14 @@ resource "aws_api_gateway_deployment" "apideploy" {
    ]
 
    rest_api_id = aws_api_gateway_rest_api.apiLambda.id
-   stage_name  = "test"
+   stage_name  = var.environment
 }
 
 
 resource "aws_lambda_permission" "apigw" {
    statement_id  = "AllowAPIGatewayInvoke"
    action        = "lambda:InvokeFunction"
-   function_name = aws_lambda_function.myLambda.function_name
+   function_name = var.lambda_name
    principal     = "apigateway.amazonaws.com"
 
    # The "/*/*" portion grants access from any method on any resource

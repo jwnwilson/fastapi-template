@@ -11,7 +11,7 @@ provider "aws" {
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "${var.project}-vpc"
+  name = "${var.project}-vpc-${var.environment}"
   cidr = "10.10.0.0/16"
 
   azs           = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
@@ -22,49 +22,10 @@ module "vpc" {
   # enable_nat_gateway = true
 }
 
-module "api_gateway" {
-  source = "terraform-aws-modules/apigateway-v2/aws"
-
-  name          = "pdf-generator-api"
-  description   = "My pdf generator service"
-  protocol_type = "HTTP"
-
-  cors_configuration = {
-    allow_headers = ["content-type", "x-amz-date", "authorization", "x-api-key", "x-amz-security-token", "x-amz-user-agent"]
-    allow_methods = ["*"]
-    allow_origins = ["*"]
-  }
-
-  # Custom domain
-  # domain_name                 = "terraform-aws-modules.modules.tf"
-  # domain_name_certificate_arn = "arn:aws:acm:eu-west-1:052235179155:certificate/2b3a7ed9-05e1-4f9e-952b-27744ba06da6"
-
-  # Access logs
-  # default_stage_access_log_destination_arn = "arn:aws:logs:eu-west-1:835367859851:log-group:debug-apigateway"
-  # default_stage_access_log_format          = "$context.identity.sourceIp - - [$context.requestTime] \"$context.httpMethod $context.routeKey $context.protocol\" $context.status $context.responseLength $context.requestId $context.integrationErrorMessage"
-
-  # Routes and integrations
-  integrations = {
-    "GET /" = {
-      lambda_arn             = module.pdf_api.lambda_function_arn
-      payload_format_version = "2.0"
-      timeout_milliseconds   = 12000
-    }
-
-    "$default" = {
-      lambda_arn = module.pdf_api.lambda_function_arn
-    }
-  }
-
-  tags = {
-    Name = "http-apigateway"
-  }
-}
-
 module "pdf_api" {
   source                  = "terraform-aws-modules/lambda/aws"
 
-  function_name           = "pdf_api"
+  function_name           = "pdf_api_${var.environment}"
   description             = "PDF creator API"
 
   create_package          = false
@@ -75,11 +36,15 @@ module "pdf_api" {
   vpc_security_group_ids  = [module.vpc.default_security_group_id]
   attach_network_policy   = true
 
-  allowed_triggers = {
-  APIGatewayAny = {
-    service    = "apigateway"
-    source_arn = module.api_gateway.apigatewayv2_api_arn
-  }
+}
+
+module "api_gateway" {
+  source = "./modules/api/aws"
+
+  environment       = var.environment
+  lambda_invoke_arn = module.pdf_api.lambda_function_invoke_arn
+  lambda_name       = module.pdf_api.lambda_function_name
+
 }
 
 module "docker_images" {

@@ -1,0 +1,5 @@
+aws_region = "eu-west-1"
+region = "eu-west-1"
+aws_access_key = "replace me"
+aws_secret_key = "replace me"
+environment = "staging"
