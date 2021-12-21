@@ -36,6 +36,10 @@ module "pdf_api" {
   vpc_security_group_ids  = [module.vpc.default_security_group_id]
   attach_network_policy   = true
 
+  environment_variables = {
+    ENVIRONMENT = var.environment
+  }
+
 }
 
 module "api_gateway" {

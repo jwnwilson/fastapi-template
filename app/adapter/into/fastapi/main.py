@@ -1,8 +1,11 @@
+import os
 from fastapi import FastAPI
 
 from .routes import pdf
 
-app = FastAPI(root_path="/staging")
+ENVIRONMENT = os.environ.get("ENVIRONMENT", "")
+
+app = FastAPI(root_path=f"/{ENVIRONMENT}")
 app.include_router(pdf.router)
 
 
