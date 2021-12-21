@@ -10,9 +10,6 @@ jobs:
       image: cimg/python:3.8
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
       - run: make build
       - run: make test
   deploy:
@@ -20,9 +17,6 @@ jobs:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
       - run: make deploy
 # Invoke jobs via workflows
 workflows:
