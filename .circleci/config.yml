@@ -7,14 +7,14 @@ orbs:
 jobs:
   build-and-test:
     machine:
-      image: cimg/python:3.8
+      image: ubuntu-2004:202111-01
     steps:
       - checkout
       - run: make build
       - run: make test
   deploy:
-    docker:
-      - image: cimg/python:3.8
+    machine:
+      image: ubuntu-2004:202111-01
     steps:
       - checkout
       - run: make deploy
