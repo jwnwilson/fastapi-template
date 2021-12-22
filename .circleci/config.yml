@@ -13,12 +13,37 @@ jobs:
       - run: make build
       - run: make test
       - run: bash ./scripts/push.sh
-  deploy:
-    machine:
-      image: ubuntu-2004:202111-01
+  deploy-plan:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:latest
     steps:
       - checkout
-      - run: make deploy
+      - run:
+          name: terraform init & plan
+          command: |
+            apk update && apk add bash make
+            bash scripts/plan.sh
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  deploy-apply:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform
+          command: |
+            apk update && apk add bash make
+            bash scripts/deploy.sh
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
 # Invoke jobs via workflows
 workflows:
   main:
@@ -28,10 +53,17 @@ workflows:
           filters:
             branches:
               only: main
-      - deploy:
-          name: deploy
+      - deploy-plan:
+          name: deploy-plan
           requires:
             - build-and-test
           filters:
             branches:
               only: main
+      - deploy-approve:
+          type: approval
+          requires:
+            - deploy-plan
+      - deploy-apply:
+          requires:
+            - deploy-approve
